@@ -1,0 +1,216 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  font-size: 62.5%;
+  height: 100%;
+  width: 100%;
+  /* position: fixed; */
+  left: 0;
+  right: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: 500;
+  color: #fff;
+  /* background-position: center; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* position: fixed; */
+  left: 0;
+  right: 0;
+}
+
+.gradient-bg {
+  background: linear-gradient(to top right, #8fd6ff, #18a0ee, #7fd0ff, #19c3fb);
+  background-size: 400% 400%;
+  animation: moving-gradient 15s ease infinite;
+}
+
+/* animating bg-gradient */
+@keyframes moving-gradient {
+  0% {
+    background-position: 50% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 50% 50%;
+  }
+}
+
+/* weather elements */
+.app {
+  margin-top: 10rem;
+  gap: 4rem;
+}
+
+.app,
+.weather-container,
+.forecast {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.weather-current {
+  width: 12rem;
+  font-weight: 600;
+}
+
+.location {
+  font-size: 2.4rem;
+}
+
+.temperature {
+  font-size: 7.5rem;
+  margin-top: -1.2rem;
+  font-weight: 400;
+}
+
+.description {
+  font-size: 1.6rem;
+  margin-top: -0.8rem;
+}
+
+.high-low-container {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.6rem;
+}
+
+.high,
+.low {
+  /* display: block; */
+  font-size: 1.4rem;
+}
+
+.forecast {
+  gap: 1rem;
+}
+
+.hour-container,
+.daily-forecast-container {
+  width: 30rem;
+  padding: 1.2rem 0;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.25);
+  /* backdrop-filter: blur(100px); */
+}
+
+.daily-forecast-container {
+  padding-top: 0.7rem;
+  height: 22rem;
+  /* overflow-y: scroll; */
+}
+
+.forecast-heading {
+  font-size: 1.2rem;
+  font-weight: 600;
+  top: 0;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0.4rem;
+  margin: -0.5rem 1.2rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#day {
+  margin-top: 0;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+}
+
+.hour-weather-container {
+  width: 100%;
+  padding: 1rem 1.2rem 0;
+  display: flex;
+  overflow-x: scroll;
+  gap: 2.4rem;
+}
+
+.weather-hour {
+  width: 8rem;
+  gap: 1.2rem;
+}
+
+.hour {
+  font-size: 1.2rem;
+}
+
+.temperature-hour {
+  font-size: 1.4rem;
+}
+
+.day-weather-container {
+  height: 18.8rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* gap: 1.8rem; */
+  overflow-y: scroll;
+  padding: 0 1.2rem;
+}
+
+.day-forecast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+}
+
+.day-forecast:not(:last-of-type) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.day {
+  font-size: 1.4rem;
+}
+
+.day-weather-icon {
+  margin-left: 1rem;
+}
+
+.end {
+  width: 100vw;
+  margin: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+}
+
+.heart {
+  color: rgb(190, 0, 0);
+  animation: beat 1s ease infinite;
+}
+
+@keyframes beat {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+    color: red;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.hidden {
+  opacity: 0;
+}
