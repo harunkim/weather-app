@@ -1,34 +1,72 @@
-// get location from browser
+"use strict";
+
+// function to get position from browser
 const getPosition = function () {
   return new Promise(function (resolve, reject) {
     navigator.geolocation.getCurrentPosition(resolve, reject);
   });
 };
+// testing function
+// console.log(getPosition());
 
-// get weather for given position
-const getWeather = async function (lat, long) {
-  const weather = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m&daily=temperature_2m_min&daily=temperature_2m_max&timezone=auto`
-  );
-  const weatherObj = await weather.json();
-  console.log("we are here-1");
-  console.log(weatherObj);
-  console.log("we are here-2");
-  return weatherObj;
-};
-
-// make function work properly
-const renderWeather = async function () {
+// get data from API
+const getWeatherData = async function () {
+  // geolocation
   const pos = await getPosition();
-  const { latitude: lat, longitude: long } = pos.coords;
+  const { latitude: lat, longitude: lng } = pos.coords;
+  // testing function call
+  // console.log(lat, lng);
+  const locationPromise = await fetch(
+    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
+  );
 
-  const location = await fetch(
-    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${long}&localityLanguage=en`
-  ).then((loc) => loc.json());
+  const locationObject = await locationPromise.json();
+  console.log(locationObject);
 
-  const city = location.city;
+  const weatherPromise = await fetch(
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=temperature_2m&daily=temperature_2m_min&daily=temperature_2m_max&current_weather=true&timezone=auto`
+  );
+  const weatherObject = await weatherPromise.json();
+  console.log(weatherObject);
 
-  await getWeather(lat, long);
+  const currentTemp = weatherObject.current_weather.temperature;
+
+  const date = (() => {
+    let date = new Date();
+    return (
+      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+    );
+  })();
+  // .toLocaleDateString()
+  // .replaceAll("/", "-");
+  const dailyMinTemp =
+    weatherObject.daily.temperature_2m_min[
+      weatherObject.daily.time.indexOf(date)
+    ];
+  const dailyMaxTemp =
+    weatherObject.daily.temperature_2m_max[
+      weatherObject.daily.time.indexOf(date)
+    ];
+  // testing current, min and max value retreival
+  console.log({
+    date,
+    curr: currentTemp,
+    min: dailyMinTemp,
+    max: dailyMaxTemp,
+  });
+  const app = document.querySelector(".app");
+  app.insertAdjacentHTML(
+    "afterbegin",
+    `<div class="weather-container weather-current">
+    <p class="location">${locationObject.locality}</p>
+    <p class="temperature">${currentTemp}&#176;</p>
+    <p class="description">${locationObject.city}</p>
+    <div class="high-low-container">
+      <p class="high">H: ${dailyMaxTemp}&#176;</p>
+      <p class="low">L: ${dailyMinTemp}&#176;</p>
+    </div>
+  </div>`
+  );
 };
 
-renderWeather();
+getWeatherData();
