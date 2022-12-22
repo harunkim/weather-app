@@ -24,7 +24,7 @@ const getWeatherData = async function () {
   console.log(locationObject);
 
   const weatherPromise = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=temperature_2m&daily=temperature_2m_min&daily=temperature_2m_max&current_weather=true&timezone=auto`
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=temperature_2m&daily=temperature_2m_min&daily=temperature_2m_max&current_weather=true&timezone=auto&daily=sunrise&daily=sunset`
   );
   const weatherObject = await weatherPromise.json();
   console.log(weatherObject);
@@ -67,6 +67,20 @@ const getWeatherData = async function () {
     </div>
   </div>`
   );
+  const bgChecker =
+    date +
+    "T" +
+    new Date().toLocaleTimeString().slice(0, 5).replaceAll("/", "-");
+  if (bgChecker < weatherObject.daily.sunrise[0]) {
+    document.body.classList.add("night-bg");
+  } else document.body.classList.add("gradient-bg");
+
+  // check values used for bg change logic
+  // console.log({
+  //   bgChecker,
+  //   sunrise: weatherObject.daily.sunrise[0],
+  //   state: bgChecker < weatherObject.daily.sunrise[0],
+  // });
 };
 
 getWeatherData();
