@@ -97,8 +97,8 @@ const getWeatherData = async function () {
     <p class="temperature">${currentTemp}&#176;</p>
     <p class="description">${locationObject.city}</p>
     <div class="high-low-container">
+    <p class="low">L: ${dailyMinTemps[0]}&#176;</p>
       <p class="high">H: ${dailyMaxTemps[0]}&#176;</p>
-      <p class="low">L: ${dailyMinTemps[0]}&#176;</p>
     </div>
   </div>
   <div class="forecast">
