@@ -3,7 +3,7 @@
 
 ## allow browser to access your location and receive real-time weather forecast for your location
 
-### concepts learn:
+### concepts learnt:
 #### - working with flexbox and animations
 #### - changing backgrouds according to time using js
 #### - the browser inbuilt geolocation API
