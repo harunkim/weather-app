@@ -106,7 +106,7 @@ const getWeatherData = async function () {
     date +
     "T" +
     new Date().toLocaleTimeString().slice(0, 5).replaceAll("/", "-");
-  if (bgChecker < weatherObject.daily.sunrise[0]) {
+  if (bgChecker >= weatherObject.daily.sunset[0]) {
     document.body.classList.add("night-bg");
   } else document.body.classList.add("gradient-bg");
 
