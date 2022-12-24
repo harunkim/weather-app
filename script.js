@@ -40,14 +40,16 @@ const getWeatherData = async function () {
   const currentTemp = weatherObject.current_weather.temperature;
 
   // get hours from weather object
+  const now = Number(weatherObject.current_weather.time.slice(11, 13));
   const hours = weatherObject.hourly.time.map((hour) => hour.slice(11, 13));
+  hours[now] = "Now";
 
   // get hourly weather from weather object
   const hourlyTemp = weatherObject.hourly.temperature_2m;
 
   // fill hourly temperature HTML dynamically
   let hourlyTempHTML = "";
-  for (let i = 0; i < 24; i++) {
+  for (let i = now; i < now + 24; i++) {
     hourlyTempHTML += ` <div class="weather-container weather-hour">
         <p class="hour">${hours[i]}</p>
         <i class="fa-solid fa-bolt"></i>
