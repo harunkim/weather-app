@@ -24,7 +24,7 @@ const getWeatherData = async function () {
   console.log(locationObject);
 
   const weatherPromise = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=temperature_2m&daily=temperature_2m_min&daily=temperature_2m_max&current_weather=true&timezone=auto&daily=sunrise&daily=sunset`
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=temperature_2m&daily=temperature_2m_min&daily=temperature_2m_max&current_weather=true&timezone=auto&daily=sunrise&daily=sunset&hourly=cloudcover`
   );
   const weatherObject = await weatherPromise.json();
   console.log(weatherObject);
@@ -44,15 +44,33 @@ const getWeatherData = async function () {
   const hours = weatherObject.hourly.time.map((hour) => hour.slice(11, 13));
   hours[now] = "Now";
 
-  // get hourly weather from weather object
+  // get hourly temperature from weather object
   const hourlyTemp = weatherObject.hourly.temperature_2m;
+
+  // get hourly cloudcover from weather object
+  const hourlyCloudCover = weatherObject.hourly.cloudcover;
+
+  // mapping icons with cloudcover
+  const cloudIcon = hourlyCloudCover.map((cloudCover) => {
+    if (cloudCover >= 0 && cloudCover < 25) {
+      return "fa-sun";
+    } else if (cloudCover >= 25 && cloudCover < 75) {
+      return "fa-cloud-sun";
+    } else if (cloudCover >= 75 && cloudCover <= 100) {
+      return "fa-cloud";
+    }
+  });
+
+  for (let i = now; i < now + 24; i++) {
+    console.log(cloudIcon[i]);
+  }
 
   // fill hourly temperature HTML dynamically
   let hourlyTempHTML = "";
   for (let i = now; i < now + 24; i++) {
     hourlyTempHTML += ` <div class="weather-container weather-hour">
         <p class="hour">${hours[i]}</p>
-        <i class="fa-solid fa-bolt"></i>
+        <i class="fa-solid ${cloudIcon[i]}"></i>
         <p class="temperature-hour">${hourlyTemp[i]}&#176;</p>
       </div>`;
   }
@@ -70,11 +88,12 @@ const getWeatherData = async function () {
   days[0] = "Today";
 
   // fill 7-Day temp forecast HTML dynamically
+  // removed icon as I try to figure out how to deal with it here <i class="fa-solid fa-bolt day-weather-icon"></i>
   let dailyTempHTML = "";
   for (let i = 0; i < 7; i++) {
     dailyTempHTML += `<div class="day-forecast">
     <p class="day">
-      ${days[i]}<i class="fa-solid fa-bolt day-weather-icon"></i>
+      ${days[i]}
     </p>
     <p class="high">L: ${dailyMinTemps[i]}&#176;/H: ${dailyMaxTemps[i]}&#176;</p>
   </div>`;
@@ -118,7 +137,7 @@ const getWeatherData = async function () {
           </div>
         </div>
         <div class="end">
-        made with &nbsp;<span class="heart"> ❤ </span>&nbsp; by HK
+        made with &nbsp;<span class="heart"> ❤ </span>&nbsp; by harunkim
       </div>
   </div>
   </main>`

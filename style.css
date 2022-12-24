@@ -161,6 +161,38 @@ body {
   font-size: 1.4rem;
 }
 
+.fa-cloud-sun {
+  background: -moz-linear-gradient(
+    135deg,
+    #ffca28 0%,
+    #ffca28 49%,
+    #fff 49%,
+    #fff 100%
+  );
+  background: -webkit-linear-gradient(
+    135deg,
+    #ffca28 0%,
+    #ffca28 49%,
+    #fff 49%,
+    #fff 100%
+  );
+  background: linear-gradient(
+    135deg,
+    #ffca28 0%,
+    #ffca28 49%,
+    #fff 49%,
+    #fff 100%
+  );
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.fa-sun {
+  color: #ffca28;
+}
+
 .day-weather-container {
   height: 18.8rem;
   width: 100%;
