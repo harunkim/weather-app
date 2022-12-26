@@ -1,5 +1,8 @@
 "use strict";
 
+// select body element
+const body = document.body;
+
 // function to get position from browser
 const getPosition = function () {
   return new Promise(function (resolve, reject) {
@@ -111,7 +114,9 @@ const getWeatherData = async function () {
   } else document.body.classList.add("gradient-bg");
 
   // render app dynamically
-  document.body.insertAdjacentHTML(
+  body.innerHTML = "";
+  body.classList.remove("loader-bg");
+  body.insertAdjacentHTML(
     "afterbegin",
     `<main>
     <div class="app">
@@ -153,4 +158,11 @@ const getWeatherData = async function () {
   // });
 };
 
+(() => {
+  body.classList.add("loader-bg");
+  body.insertAdjacentHTML(
+    "afterbegin",
+    '<div class="wrapper"><i class="fa-solid fa-sun"></i></div><div class=loader-text>Getting weather...</div>'
+  );
+})();
 getWeatherData();
